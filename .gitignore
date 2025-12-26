@@ -1,0 +1,51 @@
+# --- PHP / Composer ---
+/vendor/
+composer.lock
+
+# PHPUnit
+.phpunit.result.cache
+
+# Logs
+*.log
+
+# --- Cache / Temp ---
+/tmp/
+/cache/
+*.cache
+
+# --- OS generated files ---
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# --- IDE / Editor ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Node (if ever used) ---
+node_modules/
+
+# --- Docker local data (only if you add them later) ---
+# If you use bind-mounted data directories, ignore them here.
+# Example:
+# docker/mysql/data/
+
+# --- Secrets / env ---
+.env
+.env.*
+
+# --- Exclude local exercise folders ---
+sk1a/
+kougi/
+
+# --- Exclude SQL files (do not commit) ---
+createStudb.sql
+createTables.sql
+
+# --- Archives ---
+*.zip
+*.tar
+*.tar.gz
+*.tgz

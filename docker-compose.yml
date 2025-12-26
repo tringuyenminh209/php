@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: php84_app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+    ports:
+      - "2009:80"
+    depends_on:
+      - mysql
+    networks:
+      - php_network
+    environment:
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=${DB_DATABASE:-studb}
+      - DB_USERNAME=${DB_USERNAME:-dbuser}
+      - DB_PASSWORD=${DB_PASSWORD:-ecc}
+
+  # MySQL 8.0
+  mysql:
+    image: mysql:8.0
+    container_name: php84_mysql
+    restart: unless-stopped
+    ports:
+      - "2008:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    environment:
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=${DB_DATABASE:-studb}
+      - DB_USERNAME=${DB_USERNAME:-dbuser}
+      - DB_PASSWORD=${DB_PASSWORD:-ecc}
+    networks:
+      - php_network
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  php_network:
+    driver: bridge

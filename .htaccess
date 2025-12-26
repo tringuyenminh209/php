@@ -1,0 +1,6 @@
+RewriteEngine On
+
+# API routing
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^testAPI/(.*)$ testAPI/api.php [QSA,L]
