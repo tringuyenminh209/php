@@ -73,14 +73,14 @@ try{
   <!-- ▼▼メイン▼▼----------------------------------- -->
   <main>
     <div class="form-control">
-      <form action="" method="" novalidate>
+      <form action="kadai11_2.php" method="POST" novalidate>
         <div class="p-5 row">
           <div class="col-md-5">
 
             <!-- 商品番号 -->
             <div class="col">
               <label class="form-label" for="product_no">商品番号<em class="text-danger">※商品番号は変更不可</em></label>
-              <input type="text" name="product_no" id="product_no" class="form-control form-control-lg border-info bg-light" value="" readonly>
+              <input type="text" name="product_no" id="product_no" class="form-control form-control-lg border-info bg-light" value="<?= $_GET["product_no"] ?>" readonly>
             </div>
 
             <!-- カテゴリ＆価格 -->
