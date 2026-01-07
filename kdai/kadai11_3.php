@@ -1,18 +1,47 @@
 <?php
 
 //必要ファイルがあれば、読み込むこと
-
+require_once __DIR__ . "/def.php";
 
 //kadai08_1からのGETデータを取得
-
+$product_no = filter_input(INPUT_GET, "product_no");
 
 //product_noがなければ、kadai08_1に戻って、処理終了
-
+if(!$product_no){
+  header("Location: kadai08_1.php");
+  exit;
+}
 
 //product_noをキーにDBからレコードを取得
+$dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
 
+try{
+  $db = new PDO($dsn, DB_USER, DB_PASS);
+  $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+  $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-// 該当データが1件以外であれば、kadai08_1に戻って、処理終了
+  $sql = "SELECT * FROM " . TBL_PRODUCT . " WHERE product_no = :product_no";
+
+  $stmt = $db->prepare($sql);
+  $stmt->bindParam(":product_no", $product_no, PDO::PARAM_STR);
+
+  $stmt->execute();
+
+  // 該当データが1件以外であれば、kadai08_1に戻って、処理終了
+  $count = $stmt->rowCount();
+  if($count != 1){
+    header("Location: kadai08_1.php");
+    exit;
+  }
+
+  $result = $stmt->fetch(PDO::FETCH_ASSOC);
+}catch(PDOException $e){
+  echo "エラー" . $e->getMessage();
+}finally{
+  $stmt = null;
+  $db = null;
+}
+
 
 
 ?>
@@ -41,7 +70,7 @@
   <!-- ▼▼メイン▼▼----------------------------------- -->
   <main>
     <div class="form-control">
-      <form action="" method="" novalidate>
+      <form action="kadai11_4.php" method="POST" novalidate>
         <div class="p-5 row">
           <div class="col-md-5">
 
@@ -55,7 +84,7 @@
             <!-- 商品番号 -->
             <div class="col">
               <label class="form-label" for="product_no">商品番号</label>
-              <input type="text" name="product_no" id="product_no" class="form-control form-control-lg border-info bg-light" value="" readonly>
+              <input type="text" name="product_no" id="product_no" class="form-control form-control-lg border-info bg-light" value="<?= $_GET["product_no"] ?>" readonly>
             </div>
 
             <!-- カテゴリ＆価格 -->
@@ -64,6 +93,7 @@
                 <!-- カテゴリ -->
                 <label class="form-label" for="category">カテゴリ</label>
                 <p class="form-control form-control-lg border-info bg-light" name="category">
+                  <?= $result["category"] ?>
                 </p>
               </div><!-- .col -->
 
@@ -71,6 +101,7 @@
               <div class="col">
                 <label class="form-label" for="price">価格</label>
                 <p name="price" id="price" class="form-control form-control-lg border-info bg-light">
+                  <?= $result["price"] ?>
                 </p>
               </div><!-- .col -->
             </div><!-- .row -->
@@ -79,6 +110,7 @@
             <div class="col">
               <label class="form-label" for="pname">商品名</label>
               <p name="pname" id="pname" class="form-control form-control-lg border-info bg-light">
+                <?= $result["pname"] ?>
               </p>
             </div><!-- .col -->
 
@@ -88,7 +120,7 @@
 
         <div class="p-5 d-grid gap-2 d-md-flex justify-content-md-start">
           <button type="submit" class="btn btn-danger btn-lg">削除</button>
-          <a class="btn btn-secondary btn-lg" href="">戻る</a>
+          <a class="btn btn-secondary btn-lg" href="kadai08_1.php">戻る</a>
         </div><!-- .p-5 d-grid gap-2 d-md-flex justify-content-md-end -->
       </form>
 
