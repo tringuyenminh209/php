@@ -1,5 +1,34 @@
 <?php
+require_once __DIR__ . "/lib/vendor/autoload.php";
 
+$zipcode = filter_input(INPUT_GET, "zipcode");
+
+$address = "";
+
+$message = "";
+
+if(!is_null($zipcode)){
+    $cli = new GuzzleHttp\Client([
+        'base_uri' => 'https://zipcloud.ibsnet.co.jp',
+    ]);
+
+    $res = $cli->request('get', '/api/search', [
+        'query' => [
+            'zipcode' => $zipcode
+        ],
+        'verify' => false
+    ]);
+ 
+    $response = json_decode($res->getBody(), true);
+
+    if(!is_null($response['results'])){
+        $address = $response['results'][0]['address1'] . $response['results'][0]['address2'] . $response['results'][0]['address3'];
+    }
+
+    if(!is_null($response['message'])){
+        $message = $response['message'];
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -29,12 +58,12 @@
 
             <div class="p-5 row">
                 <div class="col-md-5">
-                    <form action="" method="" class="">
+                    <form action="kadai12_1.php" method="GET" class="">
 
                         <!-- 検索 -->
                         <div class="input-group mb-3">
                             <span class="input-group-text">郵便番号</span>
-                            <input type="text" class="form-control" name="zipcode" id="zipcode" value="">
+                            <input type="text" class="form-control" name="zipcode" id="zipcode" value="<?= $zipcode ?>">
 
                         </div>
                         <div class="input-group mb-3">
@@ -42,7 +71,13 @@
                             <div class="col">
                                 <p class="text-danger">
                                     住所：
-
+                                    <?php if($message) 
+                                        echo $message;
+                                    else if($zipcode && !$address)
+                                        echo "該当する住所がありません";
+                                    else
+                                        echo $address;
+                                    ?>
                                 </p>
                             </div><!-- .col -->
                         </div>
