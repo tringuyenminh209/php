@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kadai12_1 JSONデータ</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- ▼▼ヘッダー▼▼--------------------------------- -->
+    <header class="bg-info">
+        <div class="text-light ms-5 pt-5 pb-3">
+            <h1 class="h6">サーバーサイドスクリプト演習１</h1>
+            <h2 class="pt-3">自作APIからJSONデータを取得する（CORS）</h2>
+        </div><!--/.text-light ms-5 pt-5 pb-3-->
+    </header>
+    <!-- ▲▲ヘッダー▲▲--------------------------------- -->
+
+    <!-- ▼▼メイン▼▼----------------------------------- -->
+    <main>
+        <div class="form-control">
+
+            <div class="p-5 row">
+                <div id="seachBox" class="col-md-5">
+                    <form action="" method="POST" class="">
+
+                        <!-- 検索 -->
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">キーワード</span>
+                            <input type="text" class="form-control" name="keyword" id="keyword" value="">
+                            <input class="btn btn-primary btn-lg" type="submit" value="検索">
+                        </div>
+
+                    </form>
+
+                </div><!-- .col-md-5 -->
+
+                <table id="productList" class="table table-hover mt-5 form-control-lg">
+                    <thead class="table-light text-secondary">
+                        <tr>
+                            <th>商品番号</th>
+                            <th>商品名</th>
+                            <th>カテゴリ</th>
+                            <th>価格</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div><!-- .p-5 row -->
+
+        </div><!--/.form-control-->
+    </main>
+    <!-- ▲▲メイン▲▲------------------------------------ -->
+    <!-- localhost:5500に接続 -->
+    <script src="./js/kadai13.js"></script>
+    <!-- clickサーバに接続 -->
+    <!-- <script src="./js/kadai13_click.js"></script> -->
+</body>
+
+</html>
